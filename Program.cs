@@ -5,7 +5,7 @@ using System.Globalization;
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
 Console.WriteLine("Практичне завдання №8,9.");
-Console.WriteLine("Тема: Структурне керування винятками. Обробка винятків різних типів.");
+Console.WriteLine("Тема: структурне керування винятками. Обробка винятків різних типів.");
 Console.WriteLine();
 
 RunTask1();
@@ -57,7 +57,7 @@ static void RunTask2()
 
     try
     {
-        Console.Write("Завдання 2. Введіть додатне дробове число: ");
+        Console.Write("Завдання 2. Введіть ще одне додатне дробове число: ");
         string input = Console.ReadLine() ?? "";
         double number = double.Parse(input.Replace(',', '.'), CultureInfo.InvariantCulture);
 

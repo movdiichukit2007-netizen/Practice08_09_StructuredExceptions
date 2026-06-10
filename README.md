@@ -4,8 +4,10 @@
 
 ## Що реалізовано
 
-- Окремі `catch` для різних помилок.
-- `NotPositiveNumberException`, `NotFractionalNumberException`, `finally`, `Stopwatch`.
+- Окремі блоки `catch` для різних помилок.
+- Власні класи винятків `NotPositiveNumberException` і `NotFractionalNumberException`.
+- Використано блок `finally`.
+- Додано вимірювання часу виконання через `Stopwatch`.
 
 ## Git
 
