@@ -1,108 +1,83 @@
 using System;
 using System.Diagnostics;
-using System.Globalization;
 
-Console.OutputEncoding = System.Text.Encoding.UTF8;
-
-Console.WriteLine("Практичне завдання №8,9.");
-Console.WriteLine("Тема: структурне керування винятками. Обробка винятків різних типів.");
-Console.WriteLine();
-
-RunTask1();
-Console.WriteLine();
-RunTask2();
-
-static void RunTask1()
+namespace Practice08_09_StructuredExceptions
 {
-    try
+    class NotPositiveNumberException : Exception
     {
-        Console.Write("Завдання 1. Введіть додатне дробове число: ");
-        string input = Console.ReadLine() ?? "";
-        double number = double.Parse(input.Replace(',', '.'), CultureInfo.InvariantCulture);
-
-        if (number <= 0)
+        public NotPositiveNumberException(string message) : base(message)
         {
-            throw new NotPositiveNumberException("Число повинно бути додатним.");
+        }
+    }
+
+    class NotFractionalNumberException : Exception
+    {
+        public NotFractionalNumberException(string message) : base(message)
+        {
+        }
+    }
+
+    internal class Program
+    {
+        static double ParsePositiveFractionalNumber(string input)
+        {
+            Stopwatch timer = Stopwatch.StartNew();
+
+            try
+            {
+                double number = double.Parse(input);
+
+                if (number <= 0)
+                {
+                    throw new NotPositiveNumberException("Помилка: число повинно бути додатним.");
+                }
+
+                if (number == Math.Floor(number))
+                {
+                    throw new NotFractionalNumberException("Помилка: число повинно бути дробовим.");
+                }
+
+                return number;
+            }
+            finally
+            {
+                timer.Stop();
+                Console.WriteLine("Перетворення тексту в число зайняло " + timer.ElapsedTicks + " такти таймера");
+            }
         }
 
-        if (number % 1 == 0)
+        static void Main(string[] args)
         {
-            throw new NotFractionalNumberException("Число повинно бути дробовим.");
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+            Console.WriteLine("Практичне завдання №8-9");
+            Console.WriteLine("Тема: структурне керування винятками");
+            Console.WriteLine();
+
+            Console.Write("Введіть додатне дробове число: ");
+            string input = Console.ReadLine() ?? "";
+
+            try
+            {
+                double result = ParsePositiveFractionalNumber(input);
+                Console.WriteLine("Введено коректне число: " + result);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Помилка: введене значення не є числом.");
+            }
+            catch (OverflowException)
+            {
+                Console.WriteLine("Помилка: введене число виходить за межі допустимого діапазону.");
+            }
+            catch (NotPositiveNumberException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (NotFractionalNumberException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
-
-        Console.WriteLine("Введено правильне додатне дробове число: " + number);
-    }
-    catch (FormatException)
-    {
-        Console.WriteLine("Помилка: введене значення не є числом.");
-    }
-    catch (NotPositiveNumberException ex)
-    {
-        Console.WriteLine("Помилка: " + ex.Message);
-    }
-    catch (NotFractionalNumberException ex)
-    {
-        Console.WriteLine("Помилка: " + ex.Message);
-    }
-    finally
-    {
-        Console.WriteLine("Перевірку завершено.");
-    }
-}
-
-static void RunTask2()
-{
-    Stopwatch stopwatch = new();
-    stopwatch.Start();
-
-    try
-    {
-        Console.Write("Завдання 2. Введіть ще одне додатне дробове число: ");
-        string input = Console.ReadLine() ?? "";
-        double number = double.Parse(input.Replace(',', '.'), CultureInfo.InvariantCulture);
-
-        if (number <= 0)
-        {
-            throw new NotPositiveNumberException("Число повинно бути більше нуля.");
-        }
-
-        if (number % 1 == 0)
-        {
-            throw new NotFractionalNumberException("Число повинно мати ненульову дробову частину.");
-        }
-
-        Console.WriteLine("Число пройшло перевірку: " + number);
-    }
-    catch (FormatException)
-    {
-        Console.WriteLine("Помилка: введено нечислове значення.");
-    }
-    catch (NotPositiveNumberException ex)
-    {
-        Console.WriteLine("Помилка додатності: " + ex.Message);
-    }
-    catch (NotFractionalNumberException ex)
-    {
-        Console.WriteLine("Помилка дробової частини: " + ex.Message);
-    }
-    finally
-    {
-        stopwatch.Stop();
-        Console.WriteLine("Операцію завершено.");
-        Console.WriteLine("Час виконання: " + stopwatch.ElapsedMilliseconds + " мс");
-    }
-}
-
-public class NotPositiveNumberException : Exception
-{
-    public NotPositiveNumberException(string message) : base(message)
-    {
-    }
-}
-
-public class NotFractionalNumberException : Exception
-{
-    public NotFractionalNumberException(string message) : base(message)
-    {
     }
 }

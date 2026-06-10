@@ -4,10 +4,11 @@
 
 ## Що реалізовано
 
-- Окремі блоки `catch` для різних помилок.
-- Власні класи винятків `NotPositiveNumberException` і `NotFractionalNumberException`.
-- Використано блок `finally`.
-- Додано вимірювання часу виконання через `Stopwatch`.
+- Перевірка введення додатного дробового числа.
+- Окремий метод `ParsePositiveFractionalNumber(string input)`.
+- Окремі блоки `catch` для `FormatException`, `OverflowException` і власних винятків.
+- Власні класи `NotPositiveNumberException` і `NotFractionalNumberException`.
+- Блок `finally`, у якому виводиться час перетворення через `Stopwatch`.
 
 ## Git
 
